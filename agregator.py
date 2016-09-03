@@ -1,5 +1,6 @@
 import chardet
 import requests
+import re
 
 
 def get_content(url):
@@ -13,10 +14,9 @@ def get_content(url):
 
     try:
         if requests.head(url).status_code == 200:
-            page = requests.get(url)
-            if page.encoding:
-                contet = page.content.decode(page.encoding)
             return requests.get(url).content
+        else:
+            return None
     except requests.exceptions.RequestException:
         return None
 
@@ -28,3 +28,9 @@ def decode(data):
         return data.decode(charset)
     except ValueError:
         return ''
+
+
+def remove_html_tags(page):
+    """Remove HTML tags and remove more one whitespace characters."""
+    without_tags = re.sub('<[^<]+?>', '', page)
+    return re.sub('\s+', ' ', without_tags)
