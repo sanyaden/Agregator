@@ -1,4 +1,6 @@
+import chardet
 import requests
+
 
 def get_content(url):
     """
@@ -19,3 +21,10 @@ def get_content(url):
         return None
 
 
+def decode(data):
+    """Decode raw data to unicode string."""
+    try:
+        charset = chardet.detect(data)['encoding']
+        return data.decode(charset)
+    except ValueError:
+        return ''
