@@ -1,5 +1,6 @@
 import requests
 
+
 def get_content(url):
     """
     Get web page in bytes format by url. If something wrong return None
@@ -11,11 +12,8 @@ def get_content(url):
 
     try:
         if requests.head(url).status_code == 200:
-            page = requests.get(url)
-            if page.encoding:
-                contet = page.content.decode(page.encoding)
             return requests.get(url).content
+        else:
+            return None
     except requests.exceptions.RequestException:
         return None
-
-
